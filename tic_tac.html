@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgb(43, 43, 43);
+            /* background: linear-gradient(90deg, rgb(41, 41, 41), rgb(125, 125, 125), rgb(35, 35, 35)); */
+            font-family: Netflix Sans, Helvetica Neue, Segoe UI, Roboto, Ubuntu, sans-serif;
+            color: rgb(76, 78, 78);
+        }
+
+        .container {
+            /* margin-top: 50px; */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 100px;
+            /* background-color: #64f7fe; */
+            background: radial-gradient(circle, white 0%, #64f7fe 50%);
+            padding: 100px;
+            border-radius: 50px;
+            box-shadow: 0px 0px 20px 20px rgba(0, 0, 0, 0.3);
+            /* height: 100vh; */
+            /* width: 100vw; */
+            /* object-fit: cover; */
+        }
+
+        .heading {
+            font-size: 48px;
+        }
+
+        .box {
+            width: 80px;
+            height: 80px;
+            /* background-color: azure; */
+            background-color: transparent;
+            border: 3px solid rgb(73, 73, 73);
+            line-height: 0;
+            font-size: 70px;
+            color: rgb(73, 73, 73);
+            transition: background-color 2s linear;
+        }
+        .box:hover{
+            opacity: 0.6;
+        }
+
+        .boxes {
+            display: grid;
+            grid-template-columns: auto auto auto;
+        }
+
+        #a,
+        #b,
+        #c {
+            border-top: none;
+        }
+
+        #a,
+        #d,
+        #g {
+            border-left: none;
+        }
+
+        #g,
+        #h,
+        #i {
+            border-bottom: none;
+        }
+
+        #i,
+        #f,
+        #c {
+            border-right: none;
+        }
+
+        .resetC {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+
+        }
+
+        .reset {
+            width: 120px;
+            /* height: 50px; */
+            font-size: 25px;
+            border-radius: 50px;
+            border: none;
+            background-color: rgb(118, 116, 116);
+            color: white;
+
+        }
+
+        .reset:active {
+            background-color: rgba(118, 116, 116, 0.579);
+        }
+
+        img {
+            height: 150px;
+            border-radius: 50%;
+        }
+
+        .logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 50px;
+            margin-top: -70px;
+        }
+
+        .two {
+            display: flex;
+            gap: 200px;
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .x {
+            display: flex;
+            height: 60px;
+            width: 60px;
+            background-color: #3aecf5;
+            color: rgb(35, 35, 35);
+            font-size: 40px;
+            align-items: center;
+            justify-content: center;
+            line-height: 0;
+            border: 3px solid rgb(255, 230, 0);
+            border-radius: 50%;
+            position: relative;
+            /* text-align: center; */
+            /* z-index: -1; */
+        }
+
+        .o {
+            position: relative;
+            border-radius: 50%;
+            /* border: 1px solid black; */
+            color: rgb(234, 147, 15);
+            font-size: 40px;
+            display: flex;
+            height: 60px;
+            width: 60px;
+            background-color: #3aecf5;
+            align-items: center;
+            line-height: 0;
+            justify-content: center;
+            /* text-align: center; */
+        }
+
+        .hidden1 {
+            height: 60px;
+            width: 60px;
+            background-color: #2b8e94bf;
+            position: absolute;
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        .hidden2 {
+            height: 60px;
+            width: 60px;
+            background-color: #2b8e94bf;
+            position: absolute;
+            border-radius: 50%;
+            /* z-index: -1; */
+        }
+
+        .message {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            width: 330px;
+            height: 80px;
+            background-color: rgb(32, 214, 66);
+            border-radius: 20px;
+            color: white;
+            font-size: 30px;
+            font-weight: 700;
+            z-index: -1;
+        }
+
+        @media (max-width: 400px) and (min-width: 270px) {
+            .container {
+                width: 100vw;
+                padding: 20px;
+                border-radius: 0%;
+                gap: 60px;
+                /* padding-bottom: 59px; */
+                /* height: 789px; */
+                height: 100vh;
+            }
+
+            .logo {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                margin-top: -100px;
+                gap: 5px;
+            }
+
+            .logo>img {
+                height: 100px;
+            }
+
+            .logo>h1 {
+                font-size: 39px;
+            }
+
+            .score {
+                display: flex;
+                /* border: 1px solid black; */
+                gap: 150px !important;
+                display: none;
+            }
+        }
+
+        .sub {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .score {
+            display: flex;
+            /* border: 1px solid black; */
+            gap: 300px;
+            display: none;
+        }
+
+        .scoreX,
+        .scoreO {
+            display: flex;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 18px;
+        }
+
+        .btn2 {
+            background-color: rgba(248, 4, 4, 0.841);
+            color: white;
+            border: none;
+            padding: 11px 18px;
+            font-size: 20px;
+            border-radius: 18px;
+            font-weight: 700;
+            margin-top: 40px;
+        }
+
+        .btn2:active {
+            background-color: rgba(248, 4, 4, 0.599);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="sub">
+            <div class="logo">
+                <img src="tic.png" alt="">
+                <h1 class="heading">TIC TAC TOE</h1>
+            </div>
+            <div class="score">
+                <h1 style="color: rgb(158, 168, 7);">Score</h1>
+            </div>
+            <div class="score">
+                <div style="display: flex; flex-direction: column;">
+                    <img style="height: 58px;" src="o.png" alt="">
+                    <div class="scoreO">0</div>
+                </div>
+                <div style="display: flex; flex-direction: column;">
+                    <img style="height: 58px;" src="x.png" alt="">
+                    <div class="scoreX">0</div>
+                </div>
+            </div>
+        </div>
+        <div class="boxes">
+            <button class="box" id="a"></button>
+            <button class="box" id="b"></button>
+            <button class="box" id="c"></button>
+            <button class="box" id="d"></button>
+            <button class="box" id="e"></button>
+            <button class="box" id="f"></button>
+            <button class="box" id="g"></button>
+            <button class="box" id="h"></button>
+            <button class="box" id="i"></button>
+        </div>
+        <div class="resetC">
+            <div class="two">
+                <div class="x">X <div class="hidden1"></div>
+                </div>
+                <div class="o">O <div class="hidden2"></div>
+                </div>
+                <div class="message">
+                    <!-- X is winner -->
+                </div>
+            </div>
+            <h2 class="text">Reset The Game</h2>
+            <button class="reset"><img style="height: 70px;" src="reset.svg" alt=""></button>
+            <button class="btn2">Play new game</button>
+        </div>
+    </div>
+    <script>
+        let winner = false;
+        let whowinner;
+        let times1 = 0;
+        let times2 = 0;
+        let count = 0;
+        let chanceX = true
+        let boxes = document.querySelectorAll(".box");
+        let resnt = document.querySelector(".reset")
+        let resnt2 = document.querySelector(".btn2")
+        const winPatterns = [
+            [0, 1, 2],
+            [0, 3, 6],
+            [0, 4, 8],
+            [1, 4, 7],
+            [2, 5, 8],
+            [2, 4, 6],
+            [3, 4, 5],
+            [6, 7, 8]
+        ]
+        boxes.forEach((box) => {
+            box.addEventListener("click", function () {
+                console.log("i'm in event lisntener")
+                if (!winner) {
+
+                    if (chanceX) {
+                        document.querySelector(".hidden2").style.zIndex = "-1";
+                        document.querySelector(".hidden1").style.zIndex = "1";
+                        document.querySelector(".x").style.border = "none";
+                        document.querySelector(".o").style.border = "3px solid rgb(255, 230, 0)";
+                        box.innerHTML = "x";
+                        box.style.color = "grey";
+                        chanceX = false;
+
+                    }
+                    else {
+                        document.querySelector(".hidden2").style.zIndex = "1";
+                        document.querySelector(".hidden1").style.zIndex = "-1";
+                        document.querySelector(".x").style.border = "3px solid rgb(255, 230, 0)";
+                        document.querySelector(".o").style.border = "none";
+                        box.innerHTML = "o";
+                        box.style.color = "orange";
+                        chanceX = true;
+                    }
+                    box.disabled = true;
+                    checkwin();
+                    count++;
+                }
+                if (winner) {
+                    boxes.forEach((box) => {
+                        box.disabled = true;
+                    });
+
+                    document.querySelector(".message").innerText = whowinner + " is winner"
+                    document.querySelectorAll(".score")[0].style.display = "flex"
+                    document.querySelectorAll(".score")[1].style.display = "flex"
+                    document.querySelector(".message").style.zIndex = "2"
+                    document.querySelector(".text").innerText = "Play Again"
+                    if (whowinner == "x") {
+                        times1++;
+                        console.log(`the score of x is :${times1}`)
+                        document.querySelector(".scoreX").innerText = times1
+                    }
+                    else {
+                        times2++;
+                        console.log(`the score of o is :${times2}`)
+                        document.querySelector(".scoreO").innerText = times2
+                    }
+                }
+
+            });
+        });
+        function checkwin() {
+
+            for (let some of winPatterns) {
+                let a = boxes[some[0]].innerText
+                let b = boxes[some[1]].innerText
+                let c = boxes[some[2]].innerText
+                if (a != "" && b != "" && c != "") {
+                    if (a == b && b == c) {
+                        boxes[some[0]].style.backgroundColor = "rgba(18, 223, 18, 0.396";
+                        boxes[some[1]].style.backgroundColor = "rgba(18, 223, 18, 0.396";
+                        boxes[some[2]].style.backgroundColor = "rgba(18, 223, 18, 0.396";
+                        winner = true;
+                        whowinner = a
+                        break;
+                    }
+                }
+            }
+            if (winner == false && count == 8) {
+                boxes.forEach((box) => {
+                    box.style.backgroundColor = "rgba(255, 0, 0, 0.422)";
+                });
+                document.querySelector(".two").style.display = "none"
+                document.querySelector(".text").innerText = "Play Again"
+            }
+        }
+
+        resnt.addEventListener("click", function () {
+            winner = false;
+            count = 0;
+            chanceX = true;
+            boxes.forEach((box) => {
+                box.innerText = "";
+                box.disabled = false;
+                box.style.transition = 'none';
+                box.style.backgroundColor = "transparent"
+                void box.offsetWidth;
+                box.style.transition = "";
+                document.querySelector(".message").style.zIndex = "-1"
+                document.querySelector(".hidden2").style.zIndex = "1";
+                document.querySelector(".hidden1").style.zIndex = "-1";
+                document.querySelector(".two").style.display = "flex"
+                document.querySelector(".text").innerText = "Reset The Game"
+                document.querySelector(".x").style.border = "3px solid rgb(255, 230, 0)";
+                document.querySelector(".o").style.border = "none";
+
+            })
+        })
+        resnt2.addEventListener("click", function () {
+            winner = false;
+            count = 0;
+            chanceX = true;
+            boxes.forEach((box) => {
+                box.innerText = "";
+                box.disabled = false;
+                box.style.transition = 'none';
+                box.style.backgroundColor = "transparent"
+                void box.offsetWidth;
+                box.style.transition = "";
+                document.querySelector(".message").style.zIndex = "-1"
+                document.querySelector(".hidden2").style.zIndex = "1";
+                document.querySelector(".hidden1").style.zIndex = "-1";
+                document.querySelector(".two").style.display = "flex"
+                document.querySelector(".text").innerText = "Reset The Game"
+                document.querySelector(".x").style.border = "3px solid rgb(255, 230, 0)";
+                document.querySelector(".o").style.border = "none";
+                document.querySelector(".scoreO").innerText = "0"
+                document.querySelector(".scoreX").innerText = "0"
+                times1 = 0;
+                times2 = 0;
+                document.querySelectorAll(".score")[0].style.display = "none"
+                document.querySelectorAll(".score")[1].style.display = "none"
+            })
+        })
+    </script>
+</body>
+
+</html>
